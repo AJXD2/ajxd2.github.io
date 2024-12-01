@@ -1,7 +1,388 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJXD2</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #0f0f0f;
+        color: #dcdcdc;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .container {
+        text-align: center;
+        background: #181818;
+        padding: 25px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        max-width: 500px;
+        width: 90%;
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      }
+
+      .avatar {
+        border-radius: 50%;
+        width: 140px;
+        height: 140px;
+        margin-bottom: 15px;
+        border: 3px solid #6a5acd;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .avatar:hover {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 0 20px rgba(106, 90, 205, 0.5);
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin: 10px 0;
+        color: #fff;
+        opacity: 0;
+        animation: fadeIn 1.2s ease-in-out forwards;
+      }
+
+      .typing-effect::after {
+        content: "|";
+        animation: blink 1s infinite;
+      }
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0;
+        }
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: #aaaaaa;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+
+      .social-links a {
+        color: #fff;
+        font-size: 1.2rem;
+        text-decoration: none;
+        background: #6a5acd;
+        padding: 10px 15px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .social-links a:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: 0.5s;
+      }
+
+      .social-links a:hover:before {
+        left: 100%;
+      }
+
+      .social-links a:hover {
+        transform: scale(1.1);
+        background: #7b6cff;
+        box-shadow: 0 0 15px rgba(123, 108, 255, 0.5);
+      }
+
+      .footer {
+        margin-top: 25px;
+        font-size: 0.8rem;
+        color: #666;
+        padding: 10px;
+        border-top: 1px solid rgba(106, 90, 205, 0.2);
+      }
+
+      .footer a {
+        color: #6a5acd;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .footer a:hover {
+        color: #7b6cff;
+        text-decoration: underline;
+      }
+
+      .loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2rem;
+        color: #fff;
+        display: none;
+      }
+
+      .theme-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: transparent;
+        border: none;
+        color: #6a5acd;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        padding: 8px;
+        border-radius: 50%;
+        outline: none;
+      }
+
+      .theme-toggle:hover {
+        transform: rotate(180deg);
+      }
+
+      .light-mode {
+        background-color: #f5f5f5;
+        color: #333;
+      }
+
+      .light-mode .container {
+        background: #ffffff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .light-mode .avatar {
+        border-color: #4b6eff;
+      }
+
+      .light-mode .social-links a {
+        background: #4b6eff;
+      }
+
+      .light-mode .footer {
+        border-top: 1px solid rgba(75, 110, 255, 0.2);
+      }
+
+      .light-mode .footer a {
+        color: #4b6eff;
+      }
+
+      .light-mode p {
+        color: #444;
+      }
+
+      .light-mode h1 {
+        color: #0f0f0f;
+      }
+
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin: 15px 0;
+      }
+
+      .skill-tag {
+        background: rgba(106, 90, 205, 0.2);
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        color: #6a5acd;
+        transition: all 0.3s ease;
+      }
+
+      .skill-tag:hover {
+        background: rgba(106, 90, 205, 0.3);
+        transform: translateY(-2px);
+      }
+
+      .light-mode .skill-tag {
+        background: rgba(75, 110, 255, 0.1);
+        color: #4b6eff;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in {
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+
+      .fade-in-delay-1 {
+        animation-delay: 0.2s;
+      }
+
+      .fade-in-delay-2 {
+        animation-delay: 0.4s;
+      }
+
+      .fade-in-delay-3 {
+        animation-delay: 0.6s;
+      }
+    </style>
+  </head>
+
   <body>
-    <h1>Hello World</h1>
-    <p>I'm hosted with GitHub Pages.</p>
+    <div class="container">
+      <div class="loading">Loading...</div>
+      <img
+        src="https://www.gravatar.com/avatar/6014cfba8f95e6c05fbb9b6f47d4b3d4?s=200"
+        alt="AJXD2's Avatar"
+        class="avatar"
+        id="pfp-icon"
+      />
+      <h1 class="typing-effect">Yo, I'm AJXD2</h1>
+      <p class="fade-in fade-in-delay-1">
+        Backend developer focused on bots, APIs, and databases. Creating
+        efficient solutions and building awesome tools.
+      </p>
+      <div class="skill-tags fade-in fade-in-delay-2">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">APIs</span>
+        <span class="skill-tag">Database Design</span>
+        <span class="skill-tag">Bot Development</span>
+      </div>
+      <div class="social-links fade-in fade-in-delay-3">
+        <a href="https://github.com/AJXD2" target="_blank">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://ajxd2.dev" target="_blank">
+          <i class="fas fa-globe"></i> Website
+        </a>
+        <a href="https://x.com/AJXD_2" target="_blank">
+          <i class="fab fa-twitter"></i> Twitter
+        </a>
+        <a href="https://www.youtube.com/@AJXD2" target="_blank">
+          <i class="fab fa-youtube"></i> YouTube
+        </a>
+        <a href="https://www.reddit.com/u/ajxd2dev" target="_blank">
+          <i class="fab fa-reddit"></i> Reddit
+        </a>
+        <a href="mailto:aj@ajxd2.dev" target="_blank">
+          <i class="fas fa-envelope"></i> Email
+        </a>
+      </div>
+      <div class="footer fade-in fade-in-delay-3">
+        <p>Made with 💻 by <a href="https://ajxd2.dev">ajxd2.dev</a></p>
+      </div>
+      <button class="theme-toggle" onclick="toggleMode()">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+      const CONFIG = {
+        email: "aj@ajxd2.dev",
+      };
+
+      function getGravatarHash(email) {
+        const trimmedEmail = email.trim().toLowerCase();
+        return CryptoJS.MD5(trimmedEmail).toString();
+      }
+
+      const pfp = document.querySelector("#pfp-icon");
+      const loading = document.querySelector(".loading");
+      const themeToggle = document.querySelector(".theme-toggle");
+
+      window.onload = () => {
+        loading.style.display = "block";
+        let hash = getGravatarHash(CONFIG.email);
+        pfp.src = `https://gravatar.com/avatar/${hash}?s=200`;
+        pfp.onload = () => {
+          loading.style.display = "none";
+        };
+
+        // Initialize theme based on user preference
+        if (localStorage.getItem("theme") === "light") {
+          document.body.classList.add("light-mode");
+          updateThemeIcon();
+        }
+      };
+
+      function toggleMode() {
+        document.body.classList.toggle("light-mode");
+        updateThemeIcon();
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("light-mode") ? "light" : "dark"
+        );
+      }
+
+      function updateThemeIcon() {
+        const icon = themeToggle.querySelector("i");
+        if (document.body.classList.contains("light-mode")) {
+          icon.className = "fas fa-sun";
+        } else {
+          icon.className = "fas fa-moon";
+        }
+      }
+
+      // Typing effect for the heading
+      const heading = document.querySelector("h1");
+      heading.innerHTML = ""; // Clear the text
+      const text = "Yo, I'm AJXD2";
+      let index = 0;
+
+      function typeText() {
+        if (index < text.length) {
+          heading.innerHTML += text.charAt(index);
+          index++;
+          setTimeout(typeText, 100);
+        } else {
+          heading.classList.add("typing-effect");
+        }
+      }
+
+      setTimeout(typeText, 500);
+    </script>
   </body>
 </html>
